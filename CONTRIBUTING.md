@@ -38,6 +38,7 @@ Migrations are pure SQL files under `src/db/migrations/`, named `{number}_{descr
 - HTTP, CLI, and MCP are adapters over the same core.
 - Keep secrets out of logs, errors, and MCP results.
 - Add or update tests for behavior changes, especially auth, scopes, enrollment, and delivery.
+- Add a `CHANGELOG.md` entry under `[Unreleased]` for user-facing changes.
 - Do not add dependencies without a clear need.
 
 ## Security

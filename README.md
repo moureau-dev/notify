@@ -303,6 +303,10 @@ bun run build
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for migration and test conventions.
 
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md). Release notes are written from the matching version section.
+
 ## License
 
 MIT. See [LICENSE](./LICENSE).
