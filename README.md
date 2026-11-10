@@ -92,9 +92,10 @@ A public image is published to GHCR by `.github/workflows/publish.yml` when you 
 
 ```bash
 docker pull ghcr.io/moureau-dev/notify:latest
+docker pull ghcr.io/moureau-dev/notify:0.1.0
 ```
 
-The workflow builds `linux/amd64` and `linux/arm64`, emits an SBOM, and attempts to make the package public. If you fork the repo, the image is `ghcr.io/<your-owner>/notify`; for a fork, confirm the package visibility under the repository’s Packages settings.
+The workflow builds `linux/amd64` and `linux/arm64`, emits an SBOM, and tags the release (`0.1.0`, `0.1`, `0`, `v0.1.0`, `latest`, and `sha-...`). If you fork the repo, the image is `ghcr.io/<your-owner>/notify`; if GHCR leaves the package private, set Packages → notify → Package settings → Change visibility → Public.
 
 This is the local Docker path. For a public hostname, see [Deployment](#deployment).
 

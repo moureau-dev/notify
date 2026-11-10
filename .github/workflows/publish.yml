@@ -47,18 +47,3 @@ jobs:
           sbom: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Make the package public
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          PACKAGE_NAME: ${{ github.event.repository.name }}
-        run: |
-          if gh api "orgs/${OWNER}" >/dev/null 2>&1; then
-            gh api --method PATCH "/orgs/${OWNER}/packages/container/${PACKAGE_NAME}" \
-              -f visibility=public
-          else
-            gh api --method PATCH "/user/packages/container/${PACKAGE_NAME}" \
-              -f visibility=public
-          fi
