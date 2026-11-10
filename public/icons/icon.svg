@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Notify signal mark">
+  <rect width="512" height="512" fill="#f2eee4"/>
+  <g fill="none" stroke="#11100e" stroke-width="36" stroke-linecap="square">
+    <path d="M132 312a68 68 0 0 1 68 68"/>
+    <path d="M132 228a152 152 0 0 1 152 152"/>
+    <path d="M132 144a236 236 0 0 1 236 236"/>
+  </g>
+  <circle cx="132" cy="380" r="34" fill="#11100e"/>
+  <circle cx="376" cy="136" r="34" fill="#ff3b00"/>
+</svg>

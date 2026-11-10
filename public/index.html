@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2eee4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141311" media="(prefers-color-scheme: dark)" />
+    <meta name="description" content="Self-hosted Web Push notifications." />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="manifest" href="/manifest.webmanifest?v=2" />
+    <link rel="icon" href="/icons/icon.svg?v=2" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/icon-180.png?v=2" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="notify" />
+    <title>notify</title>
+    <link rel="stylesheet" href="/app.css?v=2" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="masthead">
+        <img class="mark" src="/icons/icon.svg?v=2" alt="" width="64" height="64" />
+        <div>
+          <div class="wordmark">notify<span>.</span></div>
+          <p class="kicker">Self-hosted web push</p>
+        </div>
+      </header>
+
+      <section id="unsupported" class="panel" hidden>
+        <p class="eyebrow">00 — Unavailable</p>
+        <h2>Push is not available.</h2>
+        <p class="muted">
+          This browser does not expose Web Push, or the server has no VAPID keys configured.
+        </p>
+      </section>
+
+      <section id="enroll" class="panel" hidden>
+        <p class="eyebrow">01 — Enrollment</p>
+        <h2>Add this device.</h2>
+        <p class="muted" id="enroll-channel">One channel, one device, one permission prompt.</p>
+        <p id="ios-hint" class="hint" hidden>
+          On iPhone, install this page first: Share → Add to Home Screen, then open
+          Notify from the Home Screen.
+        </p>
+        <label class="field">
+          <span>Device name</span>
+          <input id="device-label" type="text" maxlength="80" autocomplete="off" placeholder="iPhone, MacBook, Work laptop" />
+        </label>
+        <button id="enable" class="primary" type="button">Enable notifications</button>
+      </section>
+
+      <section id="subscribed" class="panel" hidden>
+        <p class="eyebrow">02 — Active</p>
+        <h2>This device is subscribed.</h2>
+        <p class="muted">Notifications go to the channels below.</p>
+        <ul id="subscriptions" class="list"></ul>
+        <button id="test" class="secondary" type="button">Send test notification</button>
+      </section>
+
+      <section id="home" class="panel" hidden>
+        <p class="eyebrow">00 — Standby</p>
+        <h2>No enrollment on this device.</h2>
+        <p class="muted">
+          Open a one-time enrollment link from the server, or paste its token below.
+        </p>
+        <details>
+          <summary>Enter an enrollment token</summary>
+          <form id="token-form" class="field">
+            <label class="field">
+              <span>Enrollment token</span>
+              <input id="token-input" type="text" autocomplete="off" spellcheck="false" placeholder="ent_..." />
+            </label>
+            <button class="secondary" type="submit">Continue</button>
+          </form>
+        </details>
+      </section>
+
+      <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+
+      <footer class="colophon">
+        <span>notify / web push</span>
+        <span><a href="/healthz">health</a> · bun · sqlite</span>
+      </footer>
+    </main>
+    <script type="module" src="/app.js?v=2"></script>
+  </body>
+</html>

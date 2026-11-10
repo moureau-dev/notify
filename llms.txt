@@ -1,0 +1,45 @@
+# notify
+
+> Self-hosted Web Push notifications over HTTP, CLI, and MCP. One Bun process, one SQLite database.
+
+## Agent contract
+
+- Server: `{BASE_URL}`
+- Agent contract: `GET {BASE_URL}/llms.txt`
+- Machine-readable setup: `notify setup --json`
+
+## MCP
+
+- Endpoint: `POST {BASE_URL}/mcp`
+- Transport: Streamable HTTP, stateless
+- Auth: `Authorization: Bearer ntk_...`
+- Discovery: call `tools/list`; tool names, descriptions, and JSON input schemas are returned by the server.
+- Use a send-only token (`notify:send`) unless administration is required.
+
+Tools:
+
+- `notify` — `{ channel?, title?, body, url?, tag?, data? }`. Omit `channel` for the default channel.
+- `list_channels` — visible channels.
+- `list_devices` — devices with subscription IDs; push endpoints are never returned.
+- `list_notifications` — recent notifications.
+- `create_channel` — admin-gated, `channels:write`.
+- `register_device` — admin-gated, `devices:write`; returns a one-time enrollment URL and optional `ttlMs`.
+- `manage_subscription` — admin-gated, `devices:write`; takes a subscription ID and `delete`/`disable`.
+
+Admin tools are not registered unless `MCP_ADMIN_ENABLED=1`, and still require the right scope.
+
+## CLI
+
+```bash
+notify setup --json
+notify send "message" --channel <slug> --json
+notify register --channel <slug> --ttl 24h --json
+notify notifications list --json
+notify notifications show <id> --json
+notify subscription list --json
+notify token create --name agent --scope notify:send --json
+```
+
+## Storage
+
+`notifications` stores every send, including sends with no subscriptions. `deliveries` stores one row per subscription attempt with status, HTTP status code, and error. `RETENTION_DAYS` prunes old rows.

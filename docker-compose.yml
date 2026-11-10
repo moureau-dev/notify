@@ -1,0 +1,25 @@
+services:
+  notify:
+    build: .
+    ports:
+      # Bound to loopback; put a TLS reverse proxy in front for a public host.
+      - "127.0.0.1:8787:8787"
+    env_file:
+      - .env
+    environment:
+      # Container-internal values override .env, which is written for self-host.
+      HOST: 0.0.0.0
+      DATABASE_PATH: /data/notify.sqlite
+    volumes:
+      - notify-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  notify-data:
