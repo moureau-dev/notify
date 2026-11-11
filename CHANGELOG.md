@@ -8,6 +8,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _No unreleased changes yet._
 
+## [0.1.1] - 2026-11-11
+
+### Added
+
+- MCP `register_device` now returns a terminal QR code and a PNG preview alongside the enrollment URL.
+
+### Fixed
+
+- The CLI now honors the saved `~/.config/notify/config.json` URL when `NOTIFY_URL` is not set.
+
 ## [0.1.0] - 2026-11-10
 
 ### Added
@@ -47,5 +57,6 @@ _No unreleased changes yet._
 - CLI shell completion is not implemented.
 - iOS requires the PWA to be installed to the Home Screen for Web Push.
 
-[Unreleased]: https://github.com/moureau-dev/notify/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/moureau-dev/notify/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/moureau-dev/notify/releases/tag/v0.1.1
 [0.1.0]: https://github.com/moureau-dev/notify/releases/tag/v0.1.0

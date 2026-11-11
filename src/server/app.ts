@@ -149,7 +149,7 @@ function agentContract(config: Config): string {
   if (config.mcpAdminEnabled) {
     lines.push(
       "- create_channel: create a channel. Requires channels:write and a global token.",
-      "- register_device: create a one-time enrollment URL. Requires devices:write; ttlMs optional.",
+      "- register_device: create a one-time enrollment URL and terminal QR. Requires devices:write; ttlMs optional.",
       "- manage_subscription: delete or disable a subscription. Requires devices:write.",
     );
   }

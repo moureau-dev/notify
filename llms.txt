@@ -23,7 +23,7 @@ Tools:
 - `list_devices` — devices with subscription IDs; push endpoints are never returned.
 - `list_notifications` — recent notifications.
 - `create_channel` — admin-gated, `channels:write`.
-- `register_device` — admin-gated, `devices:write`; returns a one-time enrollment URL and optional `ttlMs`.
+- `register_device` — admin-gated, `devices:write`; returns a one-time enrollment URL, terminal QR, and optional `ttlMs`.
 - `manage_subscription` — admin-gated, `devices:write`; takes a subscription ID and `delete`/`disable`.
 
 Admin tools are not registered unless `MCP_ADMIN_ENABLED=1`, and still require the right scope.

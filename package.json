@@ -1,6 +1,6 @@
 {
   "name": "notify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Self-hosted Web Push notifications over HTTP, CLI, and MCP.",
   "type": "module",
   "module": "src/index.ts",

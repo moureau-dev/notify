@@ -21,7 +21,7 @@ Tools:
 - `list_devices` — devices and subscription IDs (no push endpoints).
 - `list_notifications` — recent notifications.
 - `create_channel` — admin-gated, `channels:write`.
-- `register_device` — admin-gated, `devices:write`; returns a one-time enrollment URL and optional `ttlMs`.
+- `register_device` — admin-gated, `devices:write`; returns a one-time enrollment URL, terminal QR, and optional `ttlMs`.
 - `manage_subscription` — admin-gated, `devices:write`; takes a subscription id and `delete`/`disable`.
 
 MCP is stateless. Clients that only support stdio need a bridge; clients that only support OAuth without custom headers cannot use static Bearer tokens. `GET /llms.txt` on the server exposes the same contract, and `notify setup --json` prints it from the CLI.

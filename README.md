@@ -196,7 +196,7 @@ Tools:
 | `list_devices` | `devices:read` | no |
 | `list_notifications` | `notify:read` | no |
 | `create_channel` | `channels:write` | `MCP_ADMIN_ENABLED=1` |
-| `register_device` (`ttlMs` optional) | `devices:write` | `MCP_ADMIN_ENABLED=1` |
+| `register_device` (`ttlMs` optional, returns URL + QR) | `devices:write` | `MCP_ADMIN_ENABLED=1` |
 | `manage_subscription` | `devices:write` | `MCP_ADMIN_ENABLED=1` |
 
 Admin tools are not registered unless `MCP_ADMIN_ENABLED=1`, and even then they require the right scope. Give agents a `notify:send` token, not the admin token. `list_devices` includes subscription IDs so an agent can call `manage_subscription`.

@@ -24,7 +24,7 @@ function configPath(): string {
 
 export function loadCliConfig(): CliConfig {
   const fallback: CliConfig = {
-    url: process.env.NOTIFY_URL ?? "http://127.0.0.1:8787",
+    url: process.env.NOTIFY_URL ?? "",
     token: process.env.NOTIFY_TOKEN,
   };
 
@@ -35,7 +35,10 @@ export function loadCliConfig(): CliConfig {
       token: fallback.token ?? stored.token,
     };
   } catch {
-    return fallback;
+    return {
+      url: fallback.url || "http://127.0.0.1:8787",
+      token: fallback.token,
+    };
   }
 }
 

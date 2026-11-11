@@ -3,6 +3,7 @@ import {
   requireScopes,
   type AuthInfo,
 } from "@modelcontextprotocol/server";
+import QRCode from "qrcode";
 import * as z from "zod/v4";
 import type { Config } from "../config";
 import type { DB } from "../db";
@@ -218,9 +219,9 @@ export function buildMcpServer({ db, config, pushSender }: McpDeps, authInfo?: A
     server.registerTool(
       "register_device",
       {
-        title: "Create an enrollment link",
+        title: "Create an enrollment link and QR",
         description:
-          "Create a one-time enrollment URL for a device. Requires devices:write. Admin tokens can get-or-create the channel.",
+          "Create a one-time enrollment URL and QR code for a device. Requires devices:write. Admin tokens can get-or-create the channel.",
         inputSchema: z.object({
           channel: z.string().min(1).max(63).optional(),
           label: z.string().min(1).max(80).optional(),
@@ -235,8 +236,8 @@ export function buildMcpServer({ db, config, pushSender }: McpDeps, authInfo?: A
         }),
         scopeChallenge: requireScopes("devices:write"),
       },
-      async (args) =>
-        runTool(() => {
+      async (args) => {
+        try {
           let channel;
 
           if (auth.channelId) {
@@ -269,13 +270,37 @@ export function buildMcpServer({ db, config, pushSender }: McpDeps, authInfo?: A
             outcome: "success",
           });
 
-          return {
+          const payload = {
             url: enrollment.url,
             token: enrollment.token,
             expiresAt: enrollment.expiresAt,
             channel: { slug: channel.slug, name: channel.name },
           };
-        }),
+
+          const qrText = await QRCode.toString(enrollment.url, {
+            type: "terminal",
+            small: true,
+          });
+          const qrPng = await QRCode.toBuffer(enrollment.url, {
+            width: 512,
+            margin: 2,
+          });
+
+          return {
+            content: [
+              { type: "text" as const, text: JSON.stringify(payload, null, 2) },
+              { type: "text" as const, text: qrText },
+              {
+                type: "image" as const,
+                data: qrPng.toString("base64"),
+                mimeType: "image/png",
+              },
+            ],
+          };
+        } catch (error) {
+          return toolError(error);
+        }
+      },
     );
 
     server.registerTool(

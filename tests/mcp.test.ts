@@ -86,6 +86,54 @@ describe("mcp", () => {
     expect(text).toContain("default");
   });
 
+  test("register_device returns an enrollment URL and QR code", async () => {
+    const db = makeDb();
+    const token = testToken(db, ["admin"]);
+    const app = createApp({
+      config: testConfig({ mcpAdminEnabled: true }),
+      db,
+      pushSender: new FakePushSender(),
+    });
+
+    const response = await mcpRequest(app, token.token, {
+      jsonrpc: "2.0",
+      id: 4,
+      method: "tools/call",
+      params: {
+        name: "register_device",
+        arguments: { channel: "qr-test", ttlMs: 60_000 },
+      },
+    });
+
+    expect(response.status).toBe(200);
+    const text = await response.text();
+    const dataLine = text.split("\n").find((line) => line.startsWith("data: "));
+    const payload = JSON.parse(dataLine ? dataLine.slice(6) : text) as {
+      result: {
+        content: Array<{ type: string; text?: string; data?: string; mimeType?: string }>;
+      };
+    };
+    const content = payload.result.content;
+
+    expect(
+      content.some(
+        (item) => item.type === "text" && item.text?.includes("/enroll?token=") === true,
+      ),
+    ).toBe(true);
+    expect(
+      content.some(
+        (item) =>
+          item.type === "image" &&
+          item.mimeType === "image/png" &&
+          typeof item.data === "string" &&
+          item.data.length > 100,
+      ),
+    ).toBe(true);
+    expect(
+      content.some((item) => item.type === "text" && (item.text?.length ?? 0) > 200),
+    ).toBe(true);
+  });
+
   test("rejects a tool without the required scope", async () => {
     const db = makeDb();
     const token = testToken(db, ["channels:read"]);
